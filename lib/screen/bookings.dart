@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:wy/screen/booking/gridbooking.dart';
 import 'package:wy/screen/home.dart';
 import 'package:wy/widgets/colortheme.dart';
 import 'package:provider/provider.dart';
 import 'package:wy/providers/bookings_date.dart';
 
 class Bookings extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     final alldate = Provider.of<BookingsDates>(context);
-    List alldates = alldate.listOfDates;
+    final alldates = alldate.listOfDates;
+    final cekdate = alldate.todays;
+    
+    print(cekdate);
     int datenow = DateTime.now().day;
     return Scaffold(
         backgroundColor: colorC,
@@ -18,24 +23,30 @@ class Bookings extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text("2021-08-30"),
             ),
-            GridView.count(
+            GridView.builder(
               shrinkWrap: true,
-              crossAxisCount: 6,
-              children: List<Widget>.generate(
-                  alldates.length,
-                  (index) => GridTile(
-                        child: Card(
-                            color: alldates.last == datenow ? colorA : colorA,
-                            child: new Center(
-                              child: new Text(
-                                '${alldates[index]}',
-                                style: TextStyle(
-                          color: colorD,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold),
-                              ),
-                            )),
+              gridDelegate:
+                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
+              itemCount: alldates.length,
+              itemBuilder: (ctx, i) => GridTile(
+                child: Consumer<BookingsDates>(
+                  builder: (context, value, child) => Card(
+                      
+                      color: value.todays ? colorA : colorD,
+                      child: TextButton(
+                        onPressed: value.cek,
+                        child: Center(
+                          child: Text(
+                            '${alldates[i]}',
+                            style: TextStyle(
+                                color: colorD,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       )),
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),

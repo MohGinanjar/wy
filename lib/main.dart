@@ -25,11 +25,12 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (ctx) => BookingsDates(),
-        )
+        ),
+        
       ],
       builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Yuswa Teknik',
         home: Bookings(),
       ),
     );
